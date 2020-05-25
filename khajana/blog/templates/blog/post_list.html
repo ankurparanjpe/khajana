@@ -1,0 +1,32 @@
+{% extends "blog/base.html" %}
+{% block content %}
+
+  <div class="jumbotron">
+    <div class="container">
+      <h1 class="display-3">Hello, world!</h1>
+      <p>Welcome to the world of worldwide blogs! Here you can reach out to the whole world with your blog. You can read people's and can even share your own
+      thought on any and every topic. GO AHEAD, REACH OUT TO THE WORLD NOW!!!</p>
+      <p><a class="btn btn-primary btn-lg" href="{% url 'about' %}" role="button">Learn more &raquo;</a></p>
+    </div>
+  </div>
+
+<div class="container">
+<div class="row">
+    {% for post in post_list %}
+    <div class="col-md-4">
+    <div class="card text-white bg-dark mb-3">
+          <div class="card-body">
+        <div class="post">
+            <h5 class="card-title"><a class="text-warning" href="{% url 'post_detail' post.pk %}">{{post.title}}</a></h5>
+            <p class="card-text">{{post.text|slice:":70"}}...</p>
+            <p>Published on: {{post.create_date|date:"d M Y"}}</p>
+            <a>Comments: {{post.approved_comment.count}}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a class="text-info" href="{% url 'post_detail' post.pk%}">Read more...</a>
+        </div>
+      </div>
+    </div>
+        </div>
+    {% endfor %}
+</div>
+</div>
+{% endblock %}
