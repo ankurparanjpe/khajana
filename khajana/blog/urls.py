@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from django.urls import path
 from . import views
 
 urlpatterns = [
@@ -16,4 +17,7 @@ urlpatterns = [
     url(r'^accounts/login/$',views.user_login,name='login'),
     url(r'^accounts/signup/$',views.user_signup,name='signup'),
     url(r'^accounts/logout/$',views.user_logout,name='logout'),
+    url(r'^weather/$',views.weather,name='weather'),
+    path('delete_city/<city_name>/',views.city_remove,name='city_remove'),
+    url(r'^subtitle/(?P<pk>\d+)/$',views.SubTitleDetailsView.as_view(),name='subtitle'),
 ]
