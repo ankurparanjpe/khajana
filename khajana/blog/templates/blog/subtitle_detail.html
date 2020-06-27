@@ -1,0 +1,25 @@
+{% extends "blog/base.html" %}
+{% block content %}
+
+<h2 class="posttitle"><u>{{subtitle.subs}}</u></h2>
+
+<div class="container post-container p-3 mb-2 bg-light text-dark">
+
+    {% for subs in subtitle.subtitle.all %}
+    <h3 class="posttitle">{{subs.title}}</h3>
+    <div class="date postdate">{{subs.create_date}}</div><br>
+    <img class="rounded" src="{{subs.pic.url}}" style="width: 500px; height: 500px; float: left;
+    margin-right: 15px; margin-bottom: 10px;"/>
+    <p class="postcontent">
+        {{subs.text|safe|linebreaksbr}}
+    </p>
+    <br><br><br>
+    {% endfor %}
+    <!--{% for subs in subtitle.subtitle.all %}
+<h1 class="posttitle">{{subs.title}}</h1>
+    <p>{{subs.text}}</p>
+    <br>
+    {% endfor %}-->
+</div>
+
+{% endblock %}
