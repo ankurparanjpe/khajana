@@ -1,16 +1,18 @@
 from django.http import HttpResponse
 from django.shortcuts import render,get_object_or_404,redirect, HttpResponseRedirect
 from django.views.generic import (TemplateView, ListView, DetailView, CreateView,UpdateView, DeleteView)
-from .models import Post,Comment
+from .models import Post,Comment,City,Subtitle
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import PostForm,CommentForm
+from .forms import PostForm,CommentForm,CityForm
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth import login,logout,authenticate
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib import messages
+import requests
+import json
 
 
 class AboutView(TemplateView):
@@ -18,7 +20,7 @@ class AboutView(TemplateView):
 
 
 class PostListView(ListView):
-    model = Post
+    model = Post, Comment
 
     def get_queryset(self):
         return Post.objects.filter(create_date__lte=timezone.now()).order_by('-create_date')
@@ -26,6 +28,13 @@ class PostListView(ListView):
 
 class PostDetailsView(DetailView):
     model = Post
+
+
+class SubTitleDetailsView(DetailView):
+    model = Subtitle, Post, Comment
+
+    def get_queryset(self):
+        return Subtitle.objects.filter().order_by('subs')
 
 
 class CreatePostView(LoginRequiredMixin,CreateView):
@@ -148,3 +157,63 @@ def user_signup(request):
     else:
         form = UserCreationForm
     return render(request,'registration/signup.html',{'form':form})
+
+
+def weather(request):
+    url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=metric&appid=0034c43d09fffeec3e6936495d7cdc4e'
+    err_msg = ''
+    message = ''
+    message_class = ''
+
+    if request.method == 'POST':
+        form = CityForm(request.POST)
+
+        if form.is_valid():
+            new_city = form.cleaned_data['city']
+            existing_city_count = City.objects.filter(city=new_city).count()
+
+            if existing_city_count == 0:
+                r = requests.get(url.format(new_city)).json()
+                if r['cod'] == 200:
+                    form.save()
+                else:
+                    err_msg = 'City does not exist in the world!'
+            else:
+                err_msg = "City Already exists!"
+
+        if err_msg:
+            message = err_msg
+            message_class = 'is-danger'
+        else:
+            message = 'City added successfully!'
+            message_class = 'is-success'
+
+    form = CityForm()
+
+    cities = City.objects.all()
+    weather_data = []
+    for city in cities:
+        r = requests.get(url.format(city)).json()
+        city_weather = {
+            'city' : city.city,
+            'temperature' : r['main']['temp'],
+            'description' : r['weather'][0]['description'],
+            'icon' : r['weather'][0]['icon'],
+        }
+        weather_data.append(city_weather)
+
+    context = {
+        'weather_data': weather_data,
+        'form': form,
+        'message': message,
+        'message_class': message_class
+    }
+    print(city_weather)
+
+    return render(request, "blog/weather.html",context)
+
+
+def city_remove(request,city_name):
+    City.objects.get(city=city_name).delete()
+    return redirect('weather')
+
