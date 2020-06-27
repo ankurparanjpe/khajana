@@ -16,7 +16,7 @@
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital@1&family=Rokkitt&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css" />
 </head>
 <body>
 
@@ -25,13 +25,12 @@
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-
   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
         <a class="nav-link" href="{% url 'about' %}">About<span class="sr-only"></span></a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item bg-dark">
           <a href="https://www.instagram.com"><button type="button" class="btn btn-ins"><i class="fa fa-instagram bg-white"></i></button></a>
           <a href="https://www.facebook.com"><button type="button" class="btn btn-fb"><i class="fa fa-facebook-official bg-white"></i></button></a>
       </li>
@@ -50,17 +49,31 @@
   </div>
 </nav>
 
-<div class="content-body">
+<!--sub nav-bar-->
+<div class="navbar navbar-dark bg-primary">
+  <nav class="nav">
+    <a class="nav-link text-white" href="{% url 'weather' %}">Weather</a>
+    <a class="nav-link text-white" href="{% url 'subtitle' pk=1 %}">World</a>
+    <a class="nav-link text-white" href="{% url 'subtitle' pk=2 %}">Entertainment</a>
+    <a class="nav-link text-white" href="{% url 'subtitle' pk=3 %}">Sports</a>
+    <a class="nav-link text-white" href="{% url 'subtitle' pk=4 %}">Technology</a>
+    <a class="nav-link text-white" href="{% url 'subtitle' pk=5 %}">Miscellaneous</a>
+  </nav>
+</div>
+
+
    <!--Content of the page-->
 {% block content %}
 {% endblock %}
-</div>
 
-<footer class="py-5 bg-dark text-white" style="height: 288px;">
-  <div class="row">
+
+
+<footer class="py-5 bg-dark text-white" style="height: 250px;">
+  <div class="container">
+    <div class="row">
     <div class="col-12 col-md">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="d-block mb-2" role="img" viewBox="0 0 24 24" focusable="false"><title>Product</title><circle cx="12" cy="12" r="10"/><path d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83m13.79-4l-5.74 9.94"/></svg>
-      <small class="d-block mb-3 text-muted">&copy; 2019-2020</small>
+      <small class="d-block mb-3 text-muted">&copy; 2020</small>
     </div>
     <div class="col-6 col-md">
       <h5>Features</h5>
@@ -76,27 +89,24 @@
     <div class="col-6 col-md">
       <h5>Resources</h5>
       <ul class="list-unstyled text-small">
-        <li><a class="text-white bg-dark" href="#">Resource</a></li>
-        <li><a class="text-white bg-dark" href="#">Resource name</a></li>
-        <li><a class="text-white bg-dark" href="#">Another resource</a></li>
-        <li><a class="text-white bg-dark" href="#">Final resource</a></li>
+        <li><a class="text-white bg-dark" href="#">Business</a></li>
+        <li><a class="text-white bg-dark" href="#">Education</a></li>
+        <li><a class="text-white bg-dark" href="#">Government</a></li>
+        <li><a class="text-white bg-dark" href="#">Gaming</a></li>
       </ul>
     </div>
-
     <div class="col-6 col-md">
       <h5>About</h5>
       <ul class="list-unstyled text-small">
-        <li><a class="text-success" href="https://www.facebook.com/">Facebook</a></li>
-        <li><a class="text-success" href="instagram.com">Instagram</a></li>
-        <li><a class="text-success" href="https://www.linkedin.com/">Linkedin</a></li>
-        <li><a class="text-success" href="https://twitter.com/">Twitter</a></li>
+        <li><a class="text-success" href="#">Team</a></li>
+        <li><a class="text-success" href="#">Locations</a></li>
+        <li><a class="text-success" href="#">Privacy</a></li>
+        <li><a class="text-success" href="#">Terms</a></li>
       </ul>
     </div>
   </div>
-   <p class="text-muted">Brought to you by: <a class="text-muted" href="mailto:ankurparanjpe10@gmail.com">Ankur Paranjpe</a></p>
-
+       <p class="text-muted">Brought to you by: <a class="text-muted" href="mailto:ankurparanjpe10@gmail.com">Ankur Paranjpe</a></p>
+</div>
 </footer>
-
-
 </body>
 </html>
